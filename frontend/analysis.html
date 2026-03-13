@@ -23,11 +23,58 @@
             </div>
         </header>
         
+        <!-- Loading Animation -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-car">
+                    <svg width="120" height="80" viewBox="0 0 200 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 80 L30 80 L35 60 L55 45 L130 45 L150 55 L165 60 L170 80 L180 80 L180 95 L20 95 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="2"/>
+                        <circle cx="50" cy="90" r="18" fill="#1F2937"/>
+                        <circle cx="150" cy="90" r="18" fill="#1F2937"/>
+                    </svg>
+                </div>
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Analyzing contract with AI...</p>
+                <p class="loading-subtext">Extracting contract details and calculating scores</p>
+            </div>
+        </div>
+        
         <!-- Content -->
-        <main class="analysis-content">
+        <main class="analysis-content" id="analysisContent" style="display: none;">
+            <!-- Vehicle Information -->
+            <section class="vehicle-section">
+                <div class="vehicle-card glass-card">
+                    <div class="vehicle-header">
+                        <div class="vehicle-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 17h14v-5H5v5z"/>
+                                <path d="M6 12l2-5h8l2 5"/>
+                                <circle cx="7" cy="17" r="2"/>
+                                <circle cx="17" cy="17" r="2"/>
+                            </svg>
+                        </div>
+                        <h3>Vehicle Information</h3>
+                    </div>
+                    <div class="vehicle-details">
+                        <div class="vehicle-detail">
+                            <span>Make</span>
+                            <span id="vehicleMake">Toyota</span>
+                        </div>
+                        <div class="vehicle-detail">
+                            <span>Model</span>
+                            <span id="vehicleModel">Camry</span>
+                        </div>
+                        <div class="vehicle-detail">
+                            <span>Year</span>
+                            <span id="vehicleYear">2024</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <!-- Contract File Name -->
             <section class="filename-section">
-                <div class="filename-card">
+                <div class="filename-card glass-card">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14,2 14,8 20,8"/>
@@ -38,60 +85,97 @@
             
             <!-- Scores Section -->
             <section class="scores-section">
-                <div class="score-card fairness">
+                <div class="score-card glass-card">
+                    <h3>Fairness Score</h3>
                     <div class="score-circle" id="fairnessCircle">
                         <span class="score-value" id="fairnessScore">0</span>
-                        <span class="score-label">Fairness</span>
+                        <span class="score-label">/100</span>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-bar-fill" id="fairnessBar" style="width: 0%"></div>
                     </div>
                     <p class="score-desc">Based on APR, mileage, duration & penalties</p>
                 </div>
                 
-                <div class="score-card risk">
+                <div class="score-card glass-card">
+                    <h3>Risk Score</h3>
                     <div class="score-circle" id="riskCircle">
                         <span class="score-value" id="riskScore">0</span>
-                        <span class="score-label">Risk</span>
+                        <span class="score-label">/100</span>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-bar-fill" id="riskBar" style="width: 0%"></div>
                     </div>
                     <p class="risk-rating" id="riskRating">Medium Risk</p>
                 </div>
             </section>
             
-            <!-- Analysis Summary -->
+            <!-- Contract Summary -->
             <section class="summary-section">
-                <h2>Contract Details</h2>
+                <h2>📋 Contract Summary</h2>
                 <div class="summary-grid">
-                    <div class="summary-item">
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
                         <span class="summary-label">Lease Duration</span>
                         <span class="summary-value" id="leaseDuration">-</span>
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
                         <span class="summary-label">Monthly Payment</span>
                         <span class="summary-value" id="monthlyPayment">-</span>
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88"/>
+                            </svg>
+                        </div>
                         <span class="summary-label">Mileage Limit</span>
                         <span class="summary-value" id="mileageLimit">-</span>
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                            </svg>
+                        </div>
                         <span class="summary-label">APR Rate</span>
                         <span class="summary-value" id="aprRate">-</span>
                     </div>
                 </div>
             </section>
             
-            <!-- Risks Section -->
+            <!-- AI Risk Detection -->
             <section class="risks-section">
-                <h2>⚠️ Detected Risks</h2>
+                <h2>⚠️ AI Risk Detection</h2>
                 <div class="risks-list" id="risksList">
                     <!-- Risks will be inserted here -->
                 </div>
                 <div class="no-risks" id="noRisks" style="display: none;">
-                    <p>✅ No major risks detected</p>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                    <p>No major risks detected</p>
                 </div>
             </section>
             
             <!-- Negotiation Tips Section -->
             <section class="tips-section">
-                <h2>💡 Negotiation Tips</h2>
+                <h2> AI Negotiation Tips</h2>
                 <div class="tips-list" id="tipsList">
                     <!-- Tips will be inserted here -->
                 </div>
@@ -115,9 +199,9 @@
                     Download Report
                 </button>
                 
-                <button class="btn-outline" onclick="window.location.href='home.html'">
-                    Upload Another Contract
-                </button>
+                <button class="btn-primary" onclick="window.location.href='home.html'">
+    Upload Another Contract
+</button>
             </section>
         </main>
         
@@ -130,11 +214,25 @@
                 </svg>
                 <span>Home</span>
             </a>
+            <a href="history.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12,6 12,12 16,14"/>
+                </svg>
+                <span>History</span>
+            </a>
             <a href="chatbot.html" class="nav-item">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
                 <span>Chat</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Profile</span>
             </a>
         </nav>
     </div>
@@ -147,7 +245,10 @@
         const stored = localStorage.getItem('currentAnalysis');
         if (stored) {
             analysisData = JSON.parse(stored);
-            displayAnalysis(analysisData);
+            // Show loading first
+            setTimeout(() => {
+                displayAnalysis(analysisData);
+            }, 2000); // Show loading for 2 seconds for effect
         } else {
             // Demo data for testing
             analysisData = {
@@ -159,6 +260,11 @@
                 fairness_score: 72,
                 risk_score: 65,
                 risk_rating: "Medium Risk",
+                vehicle: {
+                    make: "Toyota",
+                    model: "Camry",
+                    year: "2024"
+                },
                 risks: [
                     "High APR compared to market (8.5% vs 5% average)",
                     "Early termination penalty present"
@@ -169,16 +275,36 @@
                     "Ask dealer to waive acquisition and documentation fees"
                 ]
             };
-            displayAnalysis(analysisData);
+            setTimeout(() => {
+                displayAnalysis(analysisData);
+            }, 2000);
         }
         
         function displayAnalysis(data) {
+            // Hide loading, show content
+            document.getElementById('loadingOverlay').style.display = 'none';
+            document.getElementById('analysisContent').style.display = 'block';
+            
+            // Show success notification
+            showNotification('Contract analyzed successfully!');
+            
             // Set filename
             document.getElementById('filename').textContent = data.filename;
             
+            // Set vehicle info if available
+            if (data.vehicle) {
+                document.getElementById('vehicleMake').textContent = data.vehicle.make || 'Toyota';
+                document.getElementById('vehicleModel').textContent = data.vehicle.model || 'Camry';
+                document.getElementById('vehicleYear').textContent = data.vehicle.year || '2024';
+            }
+            
             // Set scores with animation
-            animateScore('fairnessScore', data.fairness_score);
-            animateScore('riskScore', data.risk_score);
+            setTimeout(() => {
+                animateScore('fairnessScore', data.fairness_score);
+                animateScore('riskScore', data.risk_score);
+                animateBar('fairnessBar', data.fairness_score);
+                animateBar('riskBar', data.risk_score);
+            }, 100);
             
             // Set risk rating color
             const riskRating = document.getElementById('riskRating');
@@ -191,22 +317,36 @@
             document.getElementById('mileageLimit').textContent = data.mileage_limit;
             document.getElementById('aprRate').textContent = data.apr;
             
-            // Set risks
+            // Set risks with icons
             const risksList = document.getElementById('risksList');
             const noRisks = document.getElementById('noRisks');
             
             if (data.risks && data.risks.length > 0) {
-                risksList.style.display = 'block';
+                risksList.style.display = 'flex';
                 noRisks.style.display = 'none';
-                risksList.innerHTML = data.risks.map(risk => `
-                    <div class="risk-item">
-                        <span class="risk-icon">⚠️</span>
-                        <span>${risk}</span>
-                    </div>
-                `).join('');
+                
+                risksList.innerHTML = data.risks.map(risk => {
+                    let icon = '⚠️';
+                    let riskType = risk.toLowerCase();
+                    if (riskType.includes('apr') || riskType.includes('interest') || riskType.includes('rate')) {
+                        icon = '⚠️ High APR';
+                    } else if (riskType.includes('early') || riskType.includes('termination') || riskType.includes('end')) {
+                        icon = '⚠️ Early termination fee';
+                    } else if (riskType.includes('hidden') || riskType.includes('fee') || riskType.includes('documentation')) {
+                        icon = '⚠️ Hidden fees';
+                    } else if (riskType.includes('mileage') || riskType.includes('mile')) {
+                        icon = '⚠️ Low mileage limit';
+                    }
+                    return `
+                        <div class="risk-item">
+                            <span class="risk-icon">${icon}</span>
+                            <span>${risk}</span>
+                        </div>
+                    `;
+                }).join('');
             } else {
                 risksList.style.display = 'none';
-                noRisks.style.display = 'block';
+                noRisks.style.display = 'flex';
             }
             
             // Set tips
@@ -237,10 +377,68 @@
             }, 16);
         }
         
+        function animateBar(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const duration = 1000;
+            const increment = targetValue / (duration / 16);
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.style.width = Math.round(current) + '%';
+                
+                // Change color based on score
+                if (elementId === 'fairnessBar') {
+                    if (current >= 70) {
+                        element.style.backgroundColor = '#10B981';
+                    } else if (current >= 40) {
+                        element.style.backgroundColor = '#F59E0B';
+                    } else {
+                        element.style.backgroundColor = '#EF4444';
+                    }
+                } else {
+                    // For risk bar, higher is worse
+                    if (current <= 30) {
+                        element.style.backgroundColor = '#10B981';
+                    } else if (current <= 60) {
+                        element.style.backgroundColor = '#F59E0B';
+                    } else {
+                        element.style.backgroundColor = '#EF4444';
+                    }
+                }
+            }, 16);
+        }
+        
         function getRiskClass(score) {
             if (score <= 30) return 'risk-low';
             if (score <= 60) return 'risk-medium';
             return 'risk-high';
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22,4 12,14.01 9,11.01"/>
+                </svg>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
         
         function goToChatbot() {

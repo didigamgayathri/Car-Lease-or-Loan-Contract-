@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="profile-page">
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <a href="home.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="12" fill="url(#logoGradProf)"/>
+                    <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <defs>
+                        <linearGradient id="logoGradProf" x1="0" y1="0" x2="48" y2="48">
+                            <stop offset="0%" stop-color="#6366F1"/>
+                            <stop offset="100%" stop-color="#3B82F6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>Car Contract AI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="chatbot.html" class="nav-link">Chat</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+            </nav>
+            <div class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="home.html" class="mobile-link">Home</a>
+        <a href="history.html" class="mobile-link">History</a>
+        <a href="chatbot.html" class="mobile-link">Chat</a>
+        <a href="profile.html" class="mobile-link active">Profile</a>
+    </div>
+
+    <!-- Profile Content -->
+    <main class="profile-content">
+        <!-- User Info Card -->
+        <div class="profile-card">
+            <div class="profile-avatar-large">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="profile-details">
+                <h2 id="userName">User</h2>
+                <p id="userEmail">user@example.com</p>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                    </svg>
+                </div>
+                <div class="stat-number" id="totalAnalyses">0</div>
+                <div class="stat-label">Contracts Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                </div>
+                <div class="stat-number" id="avgFairness">-</div>
+                <div class="stat-label">Avg Fairness Score</div>
+            </div>
+        </div>
+
+        <!-- Recent Contracts Section -->
+        <h3 class="section-title">Recent Contracts</h3>
+        <div class="recent-contracts" id="recentContracts">
+            <div class="empty-state">
+                <p>No contracts yet</p>
+                <span>Upload your first contract to get started</span>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="logout-container">
+            <button class="logout-btn" onclick="logout()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16,17 21,12 16,7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Logout
+            </button>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="history.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            <span>History</span>
+        </a>
+        <a href="chatbot.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        
+        // Check if logged in
+        if (!localStorage.getItem('userEmail')) {
+            window.location.href = 'login.html';
+        }
+        
+        // Load user info
+        const userEmail = localStorage.getItem('userEmail');
+        const userName = userEmail.split('@')[0];
+        document.getElementById('userName').textContent = userName.charAt(0).toUpperCase() + userName.slice(1);
+        document.getElementById('userEmail').textContent = userEmail;
+        
+        // Load history stats
+        const historyData = JSON.parse(localStorage.getItem('analysisHistory') || '[]');
+        document.getElementById('totalAnalyses').textContent = historyData.length;
+        
+        if (historyData.length > 0) {
+            const avgFairness = Math.round(historyData.reduce((sum, item) => sum + item.fairness_score, 0) / historyData.length);
+            document.getElementById('avgFairness').textContent = avgFairness;
+        }
+        
+        // Load recent contracts
+        const recentContracts = document.getElementById('recentContracts');
+        if (historyData.length === 0) {
+            recentContracts.innerHTML = `
+                <div class="empty-state">
+                    <p>No contracts yet</p>
+                    <span>Upload your first contract to get started</span>
+                </div>
+            `;
+        } else {
+            recentContracts.innerHTML = historyData.slice(0, 5).map(item => {
+                const fairnessClass = item.fairness_score >= 70 ? 'good' : 
+                                   item.fairness_score >= 40 ? 'medium' : 'low';
+                return `
+                    <div class="contract-card">
+                        <div class="contract-info">
+                            <span class="contract-name">${item.filename}</span>
+                            <span class="contract-price">${item.monthly_payment}/month</span>
+                        </div>
+                        <div class="score-badge ${fairnessClass}">
+                            <div class="score-value">${item.fairness_score}</div>
+                            <div class="score-label">Fairness</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function logout() {
+            localStorage.removeItem('userEmail');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

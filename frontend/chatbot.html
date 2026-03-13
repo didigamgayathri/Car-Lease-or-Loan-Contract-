@@ -10,94 +10,153 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="chatbot-page">
-    <div class="mobile-container">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-left">
-                <a href="home.html" class="back-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15,18 9,12 15,6"/>
-                    </svg>
-                </a>
-                <span class="page-title">AI Advisor</span>
-            </div>
-        </header>
-        
-        <!-- Chat Info -->
-        <div class="chat-info">
-            <div class="contract-summary" id="contractSummary">
-                <span class="summary-label">Current Contract:</span>
-                <span class="summary-value" id="currentFile">-</span>
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <a href="home.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="12" fill="url(#logoGradChat)"/>
+                    <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <defs>
+                        <linearGradient id="logoGradChat" x1="0" y1="0" x2="48" y2="48">
+                            <stop offset="0%" stop-color="#6366F1"/>
+                            <stop offset="100%" stop-color="#3B82F6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>Car Contract AI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="chatbot.html" class="nav-link active">Chat</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </nav>
+            <div class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
             </div>
         </div>
-        
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="home.html" class="mobile-link">Home</a>
+        <a href="history.html" class="mobile-link">History</a>
+        <a href="chatbot.html" class="mobile-link active">Chat</a>
+        <a href="profile.html" class="mobile-link">Profile</a>
+    </div>
+
+    <!-- Chat Container - Full Height Layout -->
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="chat-header-content">
+                <h3>AI Contract Advisor</h3>
+                <p class="chat-subtitle" id="currentFile">Ask me anything about your car contract</p>
+            </div>
+            <button class="btn-clear-chat" onclick="clearChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                Clear Chat
+            </button>
+        </div>
+
         <!-- Chat Messages -->
-        <main class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-                <div class="avatar bot-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome Message -->
+            <div class="ai-message">
+                <div class="message-avatar ai-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <div class="message-content">
-                    <p>Hello! I'm your car contract negotiation assistant. I've analyzed your contract and can provide personalized advice.</p>
-                    <p>Feel free to ask me questions like:</p>
-                    <ul>
-                        <li>"Is this lease fair?"</li>
-                        <li>"Can I negotiate the APR?"</li>
-                        <li>"What should I ask the dealer?"</li>
-                    </ul>
+                <div class="message-text">
+                    <p>Hello! 👋 I'm your car contract AI advisor.</p>
+                    <p>I can help you understand your lease terms, find hidden fees, and provide negotiation tips.</p>
+                    <p>Choose a question below or type your own!</p>
                 </div>
             </div>
-        </main>
-        
-        <!-- Quick Questions -->
-        <div class="quick-questions" id="quickQuestions">
-            <button class="quick-btn" onclick="sendQuickMessage('Is this lease fair?')">Is this lease fair?</button>
-            <button class="quick-btn" onclick="sendQuickMessage('Can I negotiate the APR?')">Can I negotiate APR?</button>
-            <button class="quick-btn" onclick="sendQuickMessage('What should I ask the dealer?')">What to ask dealer?</button>
-            <button class="quick-btn" onclick="sendQuickMessage('Are there hidden fees?')">Hidden fees?</button>
         </div>
-        
+
+        <!-- Quick Questions -->
+        <div class="quick-questions">
+            <button class="quick-btn" onclick="sendQuickMessage('Is this lease fair?')">Is this lease fair?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Can I negotiate APR?')">Can I negotiate APR?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('What hidden fees should I check?')">Hidden fees to check?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Is the mileage limit good?')">Is mileage limit good?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('What questions should I ask the dealer?')">Questions for dealer?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Can I reduce monthly payment?')">Reduce payment?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Should I shorten the lease duration?')">Shorten lease duration?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Is this contract risky?')">Is this contract risky?</button>
+        </div>
+
         <!-- Chat Input -->
-        <div class="chat-input-container">
-            <form class="chat-input-form" id="chatForm">
-                <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off">
-                <button type="submit" class="send-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="chat-input">
+            <form id="chatForm" style="display:flex;gap:10px;width:100%;">
+                <input type="text" id="chatInput" placeholder="Ask about your contract..." autocomplete="off">
+                <button type="submit" class="btn-send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="22" y1="2" x2="11" y2="13"/>
                         <polygon points="22,2 15,22 11,13 2,9"/>
                     </svg>
                 </button>
             </form>
         </div>
-        
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9,22 9,12 15,12 15,22"/>
-                </svg>
-                <span>Home</span>
-            </a>
-            <a href="chatbot.html" class="nav-item active">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-                <span>Chat</span>
-            </a>
-        </nav>
     </div>
-    
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="history.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            <span>History</span>
+        </a>
+        <a href="chatbot.html" class="nav-item active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </nav>
+
     <script>
         let contractInfo = null;
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
         
         // Load contract info from localStorage
         const stored = localStorage.getItem('currentAnalysis');
         if (stored) {
             contractInfo = JSON.parse(stored);
-            document.getElementById('currentFile').textContent = contractInfo.filename;
+            document.getElementById('currentFile').textContent = 'Contract: ' + contractInfo.filename;
         }
         
         // Chat form submission
@@ -152,12 +211,28 @@
             document.getElementById('chatForm').dispatchEvent(new Event('submit'));
         }
         
+        function clearChat() {
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML = `
+                <div class="ai-message">
+                    <div class="message-avatar ai-avatar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="message-text">
+                        <p>Chat cleared! How can I help you with your car contract?</p>
+                    </div>
+                </div>
+            `;
+        }
+        
         function addUserMessage(message) {
             const messages = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'message user-message';
+            messageDiv.className = 'user-message';
             messageDiv.innerHTML = `
-                <div class="message-content">
+                <div class="message-text">
                     <p>${message}</p>
                 </div>
             `;
@@ -168,14 +243,14 @@
         function addBotMessage(message) {
             const messages = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'message bot-message';
+            messageDiv.className = 'ai-message';
             messageDiv.innerHTML = `
-                <div class="avatar bot-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="message-avatar ai-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <div class="message-content">
+                <div class="message-text">
                     ${formatMessage(message)}
                 </div>
             `;
@@ -196,15 +271,15 @@
         function showLoading() {
             const messages = document.getElementById('chatMessages');
             const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'message bot-message loading-message';
+            loadingDiv.className = 'ai-message loading-message';
             loadingDiv.id = 'loadingMessage';
             loadingDiv.innerHTML = `
-                <div class="avatar bot-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="message-avatar ai-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <div class="message-content">
+                <div class="message-text">
                     <div class="typing-indicator">
                         <span></span>
                         <span></span>
@@ -232,32 +307,68 @@
             const msg = message.toLowerCase();
             
             if (!contractInfo) {
-                return "I don't have contract data yet. Please upload a contract first from the Home page.";
+                return "I don't have contract data yet. Please upload a contract first from the Home page to get personalized advice.";
             }
             
             const apr = contractInfo.apr || "unknown";
             const fairness = contractInfo.fairness_score || 0;
             const risk = contractInfo.risk_rating || "unknown";
+            const monthly = contractInfo.monthly_payment || "unknown";
+            const mileage = contractInfo.mileage_limit || "unknown";
             
-            if (msg.includes("fair")) {
-                if (fairness >= 70) return "Based on the analysis, this appears to be a fair lease. The terms are generally reasonable.";
-                if (fairness >= 40) return "This lease has moderate fairness. There are some areas that could be negotiated.";
-                return "This lease has low fairness. I recommend negotiating harder or considering alternatives.";
-            }
-            
-            if (msg.includes("apr") || msg.includes("interest") || msg.includes("rate")) {
-                return `The APR is ${apr}. You can definitely try to negotiate this down. Mention that you're comparing offers from multiple lenders.`;
-            }
-            
-            if (msg.includes("ask") || msg.includes("dealer") || msg.includes("negotiate")) {
-                const tips = contractInfo.negotiation_tips || [];
-                if (tips.length > 0) {
-                    return "Here are the top things to ask the dealer:\n\n" + tips.slice(0, 3).map(t => "• " + t).join('\n');
+            // Is this lease fair?
+            if (msg.includes("fair") || msg.includes("fairness")) {
+                if (fairness >= 70) {
+                    return `Based on my analysis, this appears to be a fair lease (Fairness Score: ${fairness}/100). The terms are generally reasonable compared to market standards. However, there's always room for negotiation! Tips: Ask for a lower security deposit, Request included maintenance, Negotiate for more miles per year`;
                 }
-                return "Ask the dealer to waive fees, reduce APR, and increase mileage limit.";
+                if (fairness >= 40) {
+                    return `This lease has moderate fairness (Score: ${fairness}/100). There are some areas that could be negotiated. Key concerns: The APR of ${apr} is above average, Consider negotiating the monthly payment down. What to ask: Can you reduce the acquisition fee? What's the lowest APR you can offer?`;
+                }
+                return `This lease has low fairness (Score: ${fairness}/100). I strongly recommend negotiating harder or considering alternatives. Major issues: The terms may not be in your best interest, Consider walking away or requesting major changes. Your leverage: You're pre-approved through other lenders, The dealer wants to make this sale`;
             }
             
-            return "I'm here to help with your car contract. Ask me about fairness, APR negotiation, or what to ask the dealer!";
+            // APR negotiation
+            if (msg.includes("apr") || msg.includes("interest") || msg.includes("rate")) {
+                return `APR Negotiation Guide. Your current APR: ${apr}. Can you negotiate? Absolutely! Here's how: 1. Know the market rate: Current average is 4-6%, 2. Use competing offers: "I have pre-approval at 5.9% - can you match?", 3. Ask about manufacturer incentives: 0% APR promotions often available, 4. Improve credit score: Each 20 points can reduce rate by ~0.5%, 5. Consider refinancing: You can always refinance later`;
+            }
+            
+            // Hidden fees
+            if (msg.includes("hidden") || msg.includes("fee")) {
+                return `Hidden Fees to Check: Acquisition fee: $500-900 (can often be waived), Documentation fee: $100-300 (regulated in some states), Disposition fee: $300-500 (waived if you buy the car), Security deposit: Usually equal to one monthly payment, Excess wear and tear: Check what's covered, Early termination penalty: Can be 50%+ remaining payments. Pro tip: Always ask for a breakdown of ALL fees before signing!`;
+            }
+            
+            // Mileage
+            if (msg.includes("mileage") || msg.includes("mile")) {
+                const mileageNum = parseInt(mileage.replace(/[^0-9]/g, '')) || 0;
+                if (mileageNum >= 15000) {
+                    return `Mileage Assessment: Your limit: ${mileage} per year. This is a generous mileage allowance! It's above the average 12,000 miles/year. Average costs: $0.15-0.30 per excess mile, Typical overage: $1,500-3,000. Tip: If you don't use all miles, consider a lease-end buyout!`;
+                } else if (mileageNum >= 10000) {
+                    return `Mileage Assessment: Your limit: ${mileage} per year. This is average - you'll need to be mindful. If you exceed: Budget $0.20-0.25/mile overage, Consider buying extra miles upfront (cheaper). Alternatives: Negotiate for 15,000 miles/year, Choose a shorter lease with more miles`;
+                }
+                return `Mileage Assessment: Your limit: ${mileage} per year. This is low - be careful! Average is 12,000 miles/year. Estimate your true usage: work commute + leisure + travel. Shortfall = ~$0.25/mile = expensive! Negotiate for: 15,000 miles/year (often just $50-100/month more), Or consider a shorter 24-month lease`;
+            }
+            
+            // Questions for dealer
+            if (msg.includes("ask") || msg.includes("dealer") || msg.includes("question")) {
+                return `Questions to Ask the Dealer: Before signing: 1. "What's the lowest price out-the-door?" 2. "What fees can be waived?" 3. "What's the money factor/APR?" 4. "Can I include taxes in the payment?" 5. "What's the residual value?" Negotiation questions: 6. "I have approval elsewhere - can you beat it?" 7. "What incentives are available today?" 8. "Is the acquisition fee negotiable?" Always: Get everything in writing!`;
+            }
+            
+            // Reduce payment
+            if (msg.includes("reduce") || msg.includes("lower") || msg.includes("payment")) {
+                return `Ways to Lower Your Payment: Quick wins: Increase down payment - even $1,000 helps, Reduce term - 36 vs 48 months, Waive features - leather, sunroof not worth it. Negotiate: Lower APR - each 1% = ~$15-20/month, Waive fees - acquisition, documentation, Capitalized cost reduction - negotiate the car price. Longer term: Consider leasing vs buying, Look at manufacturer incentives`;
+            }
+            
+            // Lease duration
+            if (msg.includes("duration") || msg.includes("term") || msg.includes("shorten")) {
+                return `Lease Duration Guide: 24 months: Lowest interest, build equity, Always under warranty, Higher monthly payment. 36 months: Balanced option, Still under warranty, Popular choice. 48 months: More interest paid, Warranty expires, Less flexibility. Recommendation: 36 months is the sweet spot for most people!`;
+            }
+            
+            // Risk assessment
+            if (msg.includes("risk") || msg.includes("risky")) {
+                return `Contract Risk Assessment: Your risk level: ${risk} (Score: ${risk}/100). ${fairness >= 70 ? 'Low risk - terms are reasonable' : fairness >= 40 ? 'Medium risk - review carefully' : 'High risk - consider renegotiating'}. Key red flags to watch: High APR (>7%), Low mileage limit (<10k), Large security deposit, Early termination penalties, No gap insurance included. Protect yourself: Read every page, Ask about all fees, Get everything in writing`;
+            }
+            
+            return "I'm here to help with your car contract! Ask me about: Is this lease fair?, Can I negotiate APR?, What hidden fees should I check?, Is the mileage limit good?, What questions should I ask the dealer?";
         }
     </script>
 </body>

@@ -3,114 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Contract AI - Home</title>
+    <title>Car Contract AI - Smart Lease Analyzer</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="home-page">
-    <div class="mobile-container">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-left">
-                <div class="logo-small">
-                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="48" height="48" rx="12" fill="#2563EB"/>
-                        <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
-                        <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
-                    </svg>
-                </div>
-                <span class="app-name">Car Contract AI</span>
-            </div>
-            <button class="btn-logout" onclick="logout()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                    <polyline points="16,17 21,12 16,7"/>
-                    <line x1="21" y1="12" x2="9" y2="12"/>
+<body class="landing-page">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <a href="home.html" class="logo">
+                <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="12" fill="url(#logoGradNav)"/>
+                    <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    <defs>
+                        <linearGradient id="logoGradNav" x1="0" y1="0" x2="48" y2="48">
+                            <stop offset="0%" stop-color="#6366F1"/>
+                            <stop offset="100%" stop-color="#3B82F6"/>
+                        </linearGradient>
+                    </defs>
                 </svg>
-            </button>
-        </header>
-        
-        <!-- Welcome Section -->
-        <section class="welcome-section">
-            <h1 id="welcomeMessage">Welcome back!</h1>
-            <p class="welcome-subtitle">Analyze your car contract in seconds</p>
-        </section>
-        
-        <!-- Upload Section -->
-        <section class="upload-section">
-            <div class="upload-card">
-                <div class="upload-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17,8 12,3 7,8"/>
-                        <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                </div>
-                <h2>Upload Contract</h2>
-                <p>Upload your PDF lease or loan contract</p>
-                
-                <div class="upload-area" id="uploadArea">
-                    <input type="file" id="contractFile" accept=".pdf" hidden>
-                    <label for="contractFile" class="upload-label">
-                        <span class="upload-text">Tap to select PDF file</span>
-                        <span class="upload-hint">Maximum 10MB</span>
-                    </label>
-                </div>
-                
-                <button class="btn-primary btn-upload" id="analyzeBtn" onclick="analyzeContract()">
-                    Analyze Contract
-                </button>
-                
-                <div class="loading-indicator" id="loadingIndicator">
-                    <div class="spinner"></div>
-                    <p>Analyzing contract...</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Recent Analyses Section -->
-        <section class="recent-section">
-            <h2>Recent Analyses</h2>
-            <div class="recent-list" id="recentList">
-                <div class="empty-state">
-                    <p>No analyses yet</p>
-                    <span>Upload a contract to get started</span>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Navigation -->
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item active">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9,22 9,12 15,12 15,22"/>
-                </svg>
-                <span>Home</span>
+                <span>Car Contract AI</span>
             </a>
-            <a href="chatbot.html" class="nav-item">
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link active">Home</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="chatbot.html" class="nav-link">Chat</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </nav>
+            <div class="nav-mobile-toggle" onclick="toggleMobileMenu()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
                 </svg>
-                <span>Chat</span>
-            </a>
-        </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="home.html" class="mobile-link active">Home</a>
+        <a href="history.html" class="mobile-link">History</a>
+        <a href="chatbot.html" class="mobile-link">Chat</a>
+        <a href="profile.html" class="mobile-link">Profile</a>
     </div>
-    
+
+    <!-- Main Content -->
+    <main class="landing-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <!-- Left Side - Text -->
+                <div class="hero-text">
+                    <h1 class="hero-title">Car Contract AI</h1>
+                    <p class="hero-subtitle">Analyze your car lease contract using AI. Detect risks, fairness score, and negotiation tips instantly.</p>
+                    <a href="#upload-section" class="btn-get-started">Get Started</a>
+                </div>
+                
+                <!-- Right Side - Car Image -->
+                <div class="hero-image">
+                    <svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="car-hero-svg">
+                        <!-- Car body -->
+                        <path d="M60 180 L80 180 L90 130 L140 100 L360 100 L400 120 L420 140 L430 180 L450 180 L450 220 L60 220 Z" fill="url(#carGradient)" stroke="#6366f1" stroke-width="2"/>
+                        <!-- Windows -->
+                        <path d="M150 105 L200 105 L200 135 L135 135 Z" fill="rgba(255,255,255,0.3)"/>
+                        <path d="M215 105 L340 105 L340 135 L215 135 Z" fill="rgba(255,255,255,0.3)"/>
+                        <!-- Wheels -->
+                        <circle cx="130" cy="210" r="45" fill="#1f2937" stroke="#374151" stroke-width="4"/>
+                        <circle cx="130" cy="210" r="20" fill="#6b7280"/>
+                        <circle cx="370" cy="210" r="45" fill="#1f2937" stroke="#374151" stroke-width="4"/>
+                        <circle cx="370" cy="210" r="20" fill="#6b7280"/>
+                        <!-- Headlights -->
+                        <ellipse cx="75" cy="170" rx="12" ry="8" fill="#fbbf24"/>
+                        <ellipse cx="435" cy="170" rx="12" ry="8" fill="#fbbf24"/>
+                        <!-- Speed lines -->
+                        <line x1="30" y1="200" x2="-20" y2="200" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="40" y1="220" x2="-15" y2="220" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="30" y1="240" x2="-20" y2="240" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="carGradient" x1="60" y1="100" x2="450" y2="220">
+                                <stop offset="0%" stop-color="#6366f1"/>
+                                <stop offset="100%" stop-color="#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-container">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                    </div>
+                    <h3>AI Contract Analysis</h3>
+                    <p>Automatically analyze lease documents</p>
+                </div>
+                
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <h3>Risk Detection</h3>
+                    <p>Identify hidden fees and risky clauses</p>
+                </div>
+                
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3>AI Negotiation Advisor</h3>
+                    <p>Get smart negotiation tips</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Contract Section -->
+        <section class="upload-section" id="upload-section">
+            <div class="upload-container">
+                <div class="upload-card glass-card">
+                    <h2>Upload Your Contract</h2>
+                    <p>Upload your PDF lease or loan contract for AI analysis</p>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="contractFile" accept=".pdf" hidden>
+                        <label for="contractFile" class="upload-label">
+                            <div class="upload-icon-large">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17,8 12,3 7,8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <span class="upload-text">Tap to select PDF file</span>
+                            <span class="upload-hint">Maximum 10MB</span>
+                        </label>
+                    </div>
+                    
+                    <button class="btn-analyze" id="analyzeBtn" onclick="analyzeContract()">
+                        Analyze Contract
+                    </button>
+                    
+                    <div class="loading-indicator" id="loadingIndicator">
+                        <div class="spinner"></div>
+                        <p>Analyzing contract...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="history.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            <span>History</span>
+        </a>
+        <a href="chatbot.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </nav>
+
     <script>
-        // Get user email for welcome message
-        const userEmail = localStorage.getItem('userEmail') || 'User';
-        const userName = userEmail.split('@')[0];
-        document.getElementById('welcomeMessage').textContent = `Welcome, ${userName}!`;
-        
-        // Load recent analyses
-        let recentAnalyses = JSON.parse(localStorage.getItem('recentAnalyses') || '[]');
-        renderRecentAnalyses();
-        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
         // File upload handling
         const fileInput = document.getElementById('contractFile');
         const uploadArea = document.getElementById('uploadArea');
@@ -123,7 +222,7 @@
                 uploadArea.querySelector('.upload-hint').textContent = 'Tap Analyze to continue';
             }
         });
-        
+
         async function analyzeContract() {
             const fileInput = document.getElementById('contractFile');
             const file = fileInput.files[0];
@@ -159,15 +258,27 @@
                 const analysisSummary = {
                     filename: result.filename,
                     fairness_score: result.fairness_score,
+                    risk_score: result.risk_score,
+                    risk_rating: result.risk_rating,
                     monthly_payment: result.monthly_payment,
+                    lease_duration: result.lease_duration,
                     date: new Date().toISOString()
                 };
                 
+                let recentAnalyses = JSON.parse(localStorage.getItem('recentAnalyses') || '[]');
                 recentAnalyses.unshift(analysisSummary);
                 if (recentAnalyses.length > 10) {
                     recentAnalyses = recentAnalyses.slice(0, 10);
                 }
                 localStorage.setItem('recentAnalyses', JSON.stringify(recentAnalyses));
+                
+                // Also save to analysis history
+                let analysisHistory = JSON.parse(localStorage.getItem('analysisHistory') || '[]');
+                analysisHistory.unshift(analysisSummary);
+                if (analysisHistory.length > 20) {
+                    analysisHistory = analysisHistory.slice(0, 20);
+                }
+                localStorage.setItem('analysisHistory', JSON.stringify(analysisHistory));
                 
                 // Redirect to analysis page
                 window.location.href = 'analysis.html';
@@ -179,48 +290,6 @@
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('analyzeBtn').disabled = false;
             }
-        }
-        
-        function renderRecentAnalyses() {
-            const container = document.getElementById('recentList');
-            
-            if (recentAnalyses.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <p>No analyses yet</p>
-                        <span>Upload a contract to get started</span>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = recentAnalyses.map((analysis, index) => {
-                const scoreClass = analysis.fairness_score >= 70 ? 'score-good' : 
-                                   analysis.fairness_score >= 40 ? 'score-medium' : 'score-low';
-                
-                return `
-                    <div class="recent-item" onclick="viewAnalysis(${index})">
-                        <div class="recent-info">
-                            <h3>${analysis.filename}</h3>
-                            <p class="recent-payment">${analysis.monthly_payment}/month</p>
-                        </div>
-                        <div class="recent-score ${scoreClass}">
-                            <span class="score-value">${analysis.fairness_score}</span>
-                            <span class="score-label">Fairness</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        function viewAnalysis(index) {
-            // For demo, just redirect to analysis page
-            window.location.href = 'analysis.html';
-        }
-        
-        function logout() {
-            localStorage.removeItem('userEmail');
-            window.location.href = 'login.html';
         }
     </script>
 </body>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - History</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="history-page">
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <a href="home.html" class="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                </a>
+                <span class="page-title">Analysis History</span>
+            </div>
+        </header>
+        
+        <!-- History Content -->
+        <main class="history-content">
+            <div class="history-list" id="historyList">
+                <!-- History items will be loaded here -->
+            </div>
+        </main>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="history.html" class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12,6 12,12 16,14"/>
+                </svg>
+                <span>History</span>
+            </a>
+            <a href="chatbot.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Chat</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+    
+    <script>
+        // Check if logged in
+        if (!localStorage.getItem('userEmail')) {
+            window.location.href = 'login.html';
+        }
+        
+        // Load history
+        const historyData = JSON.parse(localStorage.getItem('analysisHistory') || '[]');
+        renderHistory();
+        
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            
+            if (historyData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state glass-card">
+                        <div class="empty-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                        </div>
+                        <p>No analysis history</p>
+                        <span>Upload a contract to see your analysis history</span>
+                        <a href="home.html" class="btn-primary" style="margin-top: 20px; display: inline-block; text-decoration: none; text-align: center;">Upload Contract</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = historyData.map((item, index) => {
+                const fairnessClass = item.fairness_score >= 70 ? 'score-good' : 
+                                   item.fairness_score >= 40 ? 'score-medium' : 'score-low';
+                const riskClass = item.risk_score <= 30 ? 'risk-low' : 
+                                 item.risk_score <= 60 ? 'risk-medium' : 'risk-high';
+                const date = new Date(item.date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                
+                return `
+                    <div class="history-card glass-card" onclick="viewAnalysis(${index})">
+                        <div class="history-header">
+                            <div class="history-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14,2 14,8 20,8"/>
+                                </svg>
+                            </div>
+                            <div class="history-info">
+                                <h3>${item.filename}</h3>
+                                <span class="history-date">${date}</span>
+                            </div>
+                        </div>
+                        <div class="history-scores">
+                            <div class="history-score ${fairnessClass}">
+                                <span class="score-label">Fairness</span>
+                                <span class="score-value">${item.fairness_score}</span>
+                            </div>
+                            <div class="history-risk ${riskClass}">
+                                <span class="risk-label">Risk</span>
+                                <span class="risk-value">${item.risk_score}</span>
+                            </div>
+                        </div>
+                        <div class="history-summary">
+                            <span>${item.monthly_payment}/mo</span>
+                            <span>${item.lease_duration}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function viewAnalysis(index) {
+            // Store the selected analysis and navigate to analysis page
+            const analysis = historyData[index];
+            localStorage.setItem('currentAnalysis', JSON.stringify(analysis));
+            window.location.href = 'analysis.html';
+        }
+    </script>
+</body>
+</html>
