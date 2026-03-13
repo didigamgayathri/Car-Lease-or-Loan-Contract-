@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="home-page">
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-small">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="12" fill="#2563EB"/>
+                        <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
+                        <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    </svg>
+                </div>
+                <span class="app-name">Car Contract AI</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16,17 21,12 16,7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </header>
+        
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1 id="welcomeMessage">Welcome back!</h1>
+            <p class="welcome-subtitle">Analyze your car contract in seconds</p>
+        </section>
+        
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="upload-card">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17,8 12,3 7,8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <h2>Upload Contract</h2>
+                <p>Upload your PDF lease or loan contract</p>
+                
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="contractFile" accept=".pdf" hidden>
+                    <label for="contractFile" class="upload-label">
+                        <span class="upload-text">Tap to select PDF file</span>
+                        <span class="upload-hint">Maximum 10MB</span>
+                    </label>
+                </div>
+                
+                <button class="btn-primary btn-upload" id="analyzeBtn" onclick="analyzeContract()">
+                    Analyze Contract
+                </button>
+                
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Analyzing contract...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recent Analyses Section -->
+        <section class="recent-section">
+            <h2>Recent Analyses</h2>
+            <div class="recent-list" id="recentList">
+                <div class="empty-state">
+                    <p>No analyses yet</p>
+                    <span>Upload a contract to get started</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="chatbot.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Chat</span>
+            </a>
+        </nav>
+    </div>
+    
+    <script>
+        // Get user email for welcome message
+        const userEmail = localStorage.getItem('userEmail') || 'User';
+        const userName = userEmail.split('@')[0];
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${userName}!`;
+        
+        // Load recent analyses
+        let recentAnalyses = JSON.parse(localStorage.getItem('recentAnalyses') || '[]');
+        renderRecentAnalyses();
+        
+        // File upload handling
+        const fileInput = document.getElementById('contractFile');
+        const uploadArea = document.getElementById('uploadArea');
+        
+        fileInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                uploadArea.classList.add('file-selected');
+                uploadArea.querySelector('.upload-text').textContent = fileName;
+                uploadArea.querySelector('.upload-hint').textContent = 'Tap Analyze to continue';
+            }
+        });
+        
+        async function analyzeContract() {
+            const fileInput = document.getElementById('contractFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a PDF file first');
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('analyzeBtn').disabled = true;
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const response = await fetch('http://localhost:8000/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Analysis failed');
+                }
+                
+                const result = await response.json();
+                
+                // Store result for analysis page
+                localStorage.setItem('currentAnalysis', JSON.stringify(result));
+                
+                // Add to recent analyses
+                const analysisSummary = {
+                    filename: result.filename,
+                    fairness_score: result.fairness_score,
+                    monthly_payment: result.monthly_payment,
+                    date: new Date().toISOString()
+                };
+                
+                recentAnalyses.unshift(analysisSummary);
+                if (recentAnalyses.length > 10) {
+                    recentAnalyses = recentAnalyses.slice(0, 10);
+                }
+                localStorage.setItem('recentAnalyses', JSON.stringify(recentAnalyses));
+                
+                // Redirect to analysis page
+                window.location.href = 'analysis.html';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error analyzing contract. Please try again.');
+            } finally {
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+        
+        function renderRecentAnalyses() {
+            const container = document.getElementById('recentList');
+            
+            if (recentAnalyses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>No analyses yet</p>
+                        <span>Upload a contract to get started</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = recentAnalyses.map((analysis, index) => {
+                const scoreClass = analysis.fairness_score >= 70 ? 'score-good' : 
+                                   analysis.fairness_score >= 40 ? 'score-medium' : 'score-low';
+                
+                return `
+                    <div class="recent-item" onclick="viewAnalysis(${index})">
+                        <div class="recent-info">
+                            <h3>${analysis.filename}</h3>
+                            <p class="recent-payment">${analysis.monthly_payment}/month</p>
+                        </div>
+                        <div class="recent-score ${scoreClass}">
+                            <span class="score-value">${analysis.fairness_score}</span>
+                            <span class="score-label">Fairness</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function viewAnalysis(index) {
+            // For demo, just redirect to analysis page
+            window.location.href = 'analysis.html';
+        }
+        
+        function logout() {
+            localStorage.removeItem('userEmail');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

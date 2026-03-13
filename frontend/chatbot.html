@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - AI Advisor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="chatbot-page">
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <a href="home.html" class="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                </a>
+                <span class="page-title">AI Advisor</span>
+            </div>
+        </header>
+        
+        <!-- Chat Info -->
+        <div class="chat-info">
+            <div class="contract-summary" id="contractSummary">
+                <span class="summary-label">Current Contract:</span>
+                <span class="summary-value" id="currentFile">-</span>
+            </div>
+        </div>
+        
+        <!-- Chat Messages -->
+        <main class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="avatar bot-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="message-content">
+                    <p>Hello! I'm your car contract negotiation assistant. I've analyzed your contract and can provide personalized advice.</p>
+                    <p>Feel free to ask me questions like:</p>
+                    <ul>
+                        <li>"Is this lease fair?"</li>
+                        <li>"Can I negotiate the APR?"</li>
+                        <li>"What should I ask the dealer?"</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Quick Questions -->
+        <div class="quick-questions" id="quickQuestions">
+            <button class="quick-btn" onclick="sendQuickMessage('Is this lease fair?')">Is this lease fair?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Can I negotiate the APR?')">Can I negotiate APR?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('What should I ask the dealer?')">What to ask dealer?</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Are there hidden fees?')">Hidden fees?</button>
+        </div>
+        
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <form class="chat-input-form" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off">
+                <button type="submit" class="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22,2 15,22 11,13 2,9"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="chatbot.html" class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Chat</span>
+            </a>
+        </nav>
+    </div>
+    
+    <script>
+        let contractInfo = null;
+        
+        // Load contract info from localStorage
+        const stored = localStorage.getItem('currentAnalysis');
+        if (stored) {
+            contractInfo = JSON.parse(stored);
+            document.getElementById('currentFile').textContent = contractInfo.filename;
+        }
+        
+        // Chat form submission
+        document.getElementById('chatForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addUserMessage(message);
+            input.value = '';
+            
+            // Show loading
+            showLoading();
+            
+            try {
+                const response = await fetch('http://localhost:8000/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        contract_info: contractInfo
+                    })
+                });
+                
+                hideLoading();
+                
+                if (!response.ok) {
+                    throw new Error('Chat failed');
+                }
+                
+                const data = await response.json();
+                addBotMessage(data.response);
+                
+            } catch (error) {
+                hideLoading();
+                console.error('Error:', error);
+                // Fallback to local response
+                addBotMessage(getLocalResponse(message));
+            }
+            
+            // Scroll to bottom
+            scrollToBottom();
+        });
+        
+        function sendQuickMessage(message) {
+            document.getElementById('chatInput').value = message;
+            document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+        }
+        
+        function addUserMessage(message) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${message}</p>
+                </div>
+            `;
+            messages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        function addBotMessage(message) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.innerHTML = `
+                <div class="avatar bot-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="message-content">
+                    ${formatMessage(message)}
+                </div>
+            `;
+            messages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        function formatMessage(message) {
+            // Convert line breaks to paragraphs
+            return message.split('\n\n').map(p => {
+                if (p.startsWith('•') || p.startsWith('-')) {
+                    return `<ul>${p.split('\n').map(li => `<li>${li.replace(/^[•-]\s*/, '')}</li>`).join('')}</ul>`;
+                }
+                return `<p>${p}</p>`;
+            }).join('');
+        }
+        
+        function showLoading() {
+            const messages = document.getElementById('chatMessages');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot-message loading-message';
+            loadingDiv.id = 'loadingMessage';
+            loadingDiv.innerHTML = `
+                <div class="avatar bot-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            messages.appendChild(loadingDiv);
+            scrollToBottom();
+        }
+        
+        function hideLoading() {
+            const loading = document.getElementById('loadingMessage');
+            if (loading) {
+                loading.remove();
+            }
+        }
+        
+        function scrollToBottom() {
+            const messages = document.getElementById('chatMessages');
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function getLocalResponse(message) {
+            const msg = message.toLowerCase();
+            
+            if (!contractInfo) {
+                return "I don't have contract data yet. Please upload a contract first from the Home page.";
+            }
+            
+            const apr = contractInfo.apr || "unknown";
+            const fairness = contractInfo.fairness_score || 0;
+            const risk = contractInfo.risk_rating || "unknown";
+            
+            if (msg.includes("fair")) {
+                if (fairness >= 70) return "Based on the analysis, this appears to be a fair lease. The terms are generally reasonable.";
+                if (fairness >= 40) return "This lease has moderate fairness. There are some areas that could be negotiated.";
+                return "This lease has low fairness. I recommend negotiating harder or considering alternatives.";
+            }
+            
+            if (msg.includes("apr") || msg.includes("interest") || msg.includes("rate")) {
+                return `The APR is ${apr}. You can definitely try to negotiate this down. Mention that you're comparing offers from multiple lenders.`;
+            }
+            
+            if (msg.includes("ask") || msg.includes("dealer") || msg.includes("negotiate")) {
+                const tips = contractInfo.negotiation_tips || [];
+                if (tips.length > 0) {
+                    return "Here are the top things to ask the dealer:\n\n" + tips.slice(0, 3).map(t => "• " + t).join('\n');
+                }
+                return "Ask the dealer to waive fees, reduce APR, and increase mileage limit.";
+            }
+            
+            return "I'm here to help with your car contract. Ask me about fairness, APR negotiation, or what to ask the dealer!";
+        }
+    </script>
+</body>
+</html>

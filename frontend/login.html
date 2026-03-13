@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="12" fill="#2563EB"/>
+                        <path d="M12 30L24 18L36 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 32H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="16" cy="34" r="3" stroke="white" stroke-width="2"/>
+                        <circle cx="32" cy="34" r="3" stroke="white" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h1>Car Contract AI</h1>
+                <p class="tagline">Smart Lease Analysis</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Sign In</button>
+                
+                <p class="demo-note">Demo: Enter any email and password</p>
+            </form>
+        </div>
+        
+        <div class="features-preview">
+            <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <span>AI-Powered Analysis</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚠️</span>
+                <span>Risk Detection</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">💬</span>
+                <span>Negotiation Chatbot</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simple login - just redirect to home
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                // Store user email for welcome message
+                localStorage.setItem('userEmail', email);
+                window.location.href = 'home.html';
+            }
+        });
+    </script>
+</body>
+</html>

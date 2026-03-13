@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Contract AI - Analysis Results</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="analysis-page">
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <a href="home.html" class="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                </a>
+                <span class="page-title">Analysis Results</span>
+            </div>
+        </header>
+        
+        <!-- Content -->
+        <main class="analysis-content">
+            <!-- Contract File Name -->
+            <section class="filename-section">
+                <div class="filename-card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                    </svg>
+                    <span id="filename">contract.pdf</span>
+                </div>
+            </section>
+            
+            <!-- Scores Section -->
+            <section class="scores-section">
+                <div class="score-card fairness">
+                    <div class="score-circle" id="fairnessCircle">
+                        <span class="score-value" id="fairnessScore">0</span>
+                        <span class="score-label">Fairness</span>
+                    </div>
+                    <p class="score-desc">Based on APR, mileage, duration & penalties</p>
+                </div>
+                
+                <div class="score-card risk">
+                    <div class="score-circle" id="riskCircle">
+                        <span class="score-value" id="riskScore">0</span>
+                        <span class="score-label">Risk</span>
+                    </div>
+                    <p class="risk-rating" id="riskRating">Medium Risk</p>
+                </div>
+            </section>
+            
+            <!-- Analysis Summary -->
+            <section class="summary-section">
+                <h2>Contract Details</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="summary-label">Lease Duration</span>
+                        <span class="summary-value" id="leaseDuration">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Monthly Payment</span>
+                        <span class="summary-value" id="monthlyPayment">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Mileage Limit</span>
+                        <span class="summary-value" id="mileageLimit">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">APR Rate</span>
+                        <span class="summary-value" id="aprRate">-</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Risks Section -->
+            <section class="risks-section">
+                <h2>⚠️ Detected Risks</h2>
+                <div class="risks-list" id="risksList">
+                    <!-- Risks will be inserted here -->
+                </div>
+                <div class="no-risks" id="noRisks" style="display: none;">
+                    <p>✅ No major risks detected</p>
+                </div>
+            </section>
+            
+            <!-- Negotiation Tips Section -->
+            <section class="tips-section">
+                <h2>💡 Negotiation Tips</h2>
+                <div class="tips-list" id="tipsList">
+                    <!-- Tips will be inserted here -->
+                </div>
+            </section>
+            
+            <!-- Action Buttons -->
+            <section class="actions-section">
+                <button class="btn-primary" onclick="goToChatbot()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Ask AI Advisor
+                </button>
+                
+                <button class="btn-secondary" onclick="downloadReport()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download Report
+                </button>
+                
+                <button class="btn-outline" onclick="window.location.href='home.html'">
+                    Upload Another Contract
+                </button>
+            </section>
+        </main>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="chatbot.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Chat</span>
+            </a>
+        </nav>
+    </div>
+    
+    <script>
+        // Load analysis data
+        let analysisData = null;
+        
+        // Try to get from localStorage first
+        const stored = localStorage.getItem('currentAnalysis');
+        if (stored) {
+            analysisData = JSON.parse(stored);
+            displayAnalysis(analysisData);
+        } else {
+            // Demo data for testing
+            analysisData = {
+                filename: "car_lease_contract.pdf",
+                lease_duration: "36 months",
+                monthly_payment: "$385.00",
+                mileage_limit: "12,000 miles",
+                apr: "8.5%",
+                fairness_score: 72,
+                risk_score: 65,
+                risk_rating: "Medium Risk",
+                risks: [
+                    "High APR compared to market (8.5% vs 5% average)",
+                    "Early termination penalty present"
+                ],
+                negotiation_tips: [
+                    "Try to negotiate APR below 5% (current market average)",
+                    "Request removal of early termination penalty",
+                    "Ask dealer to waive acquisition and documentation fees"
+                ]
+            };
+            displayAnalysis(analysisData);
+        }
+        
+        function displayAnalysis(data) {
+            // Set filename
+            document.getElementById('filename').textContent = data.filename;
+            
+            // Set scores with animation
+            animateScore('fairnessScore', data.fairness_score);
+            animateScore('riskScore', data.risk_score);
+            
+            // Set risk rating color
+            const riskRating = document.getElementById('riskRating');
+            riskRating.textContent = data.risk_rating;
+            riskRating.className = 'risk-rating ' + getRiskClass(data.risk_score);
+            
+            // Set summary values
+            document.getElementById('leaseDuration').textContent = data.lease_duration;
+            document.getElementById('monthlyPayment').textContent = data.monthly_payment;
+            document.getElementById('mileageLimit').textContent = data.mileage_limit;
+            document.getElementById('aprRate').textContent = data.apr;
+            
+            // Set risks
+            const risksList = document.getElementById('risksList');
+            const noRisks = document.getElementById('noRisks');
+            
+            if (data.risks && data.risks.length > 0) {
+                risksList.style.display = 'block';
+                noRisks.style.display = 'none';
+                risksList.innerHTML = data.risks.map(risk => `
+                    <div class="risk-item">
+                        <span class="risk-icon">⚠️</span>
+                        <span>${risk}</span>
+                    </div>
+                `).join('');
+            } else {
+                risksList.style.display = 'none';
+                noRisks.style.display = 'block';
+            }
+            
+            // Set tips
+            const tipsList = document.getElementById('tipsList');
+            if (data.negotiation_tips && data.negotiation_tips.length > 0) {
+                tipsList.innerHTML = data.negotiation_tips.map(tip => `
+                    <div class="tip-item">
+                        <span class="tip-icon">💡</span>
+                        <span>${tip}</span>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function animateScore(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const duration = 1000;
+            const increment = targetValue / (duration / 16);
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current);
+            }, 16);
+        }
+        
+        function getRiskClass(score) {
+            if (score <= 30) return 'risk-low';
+            if (score <= 60) return 'risk-medium';
+            return 'risk-high';
+        }
+        
+        function goToChatbot() {
+            localStorage.setItem('currentAnalysis', JSON.stringify(analysisData));
+            window.location.href = 'chatbot.html';
+        }
+        
+        function downloadReport() {
+            const data = analysisData;
+            let report = `CAR CONTRACT AI - ANALYSIS REPORT\n`;
+            report += `=====================================\n\n`;
+            report += `File: ${data.filename}\n`;
+            report += `Date: ${new Date().toLocaleDateString()}\n\n`;
+            report += `SCORES\n`;
+            report += `------\n`;
+            report += `Fairness Score: ${data.fairness_score}/100\n`;
+            report += `Risk Score: ${data.risk_score}/100 (${data.risk_rating})\n\n`;
+            report += `CONTRACT DETAILS\n`;
+            report += `----------------\n`;
+            report += `Lease Duration: ${data.lease_duration}\n`;
+            report += `Monthly Payment: ${data.monthly_payment}\n`;
+            report += `Mileage Limit: ${data.mileage_limit}\n`;
+            report += `APR Rate: ${data.apr}\n\n`;
+            
+            if (data.risks && data.risks.length > 0) {
+                report += `DETECTED RISKS\n`;
+                report += `--------------\n`;
+                data.risks.forEach(risk => {
+                    report += `• ${risk}\n`;
+                });
+                report += `\n`;
+            }
+            
+            if (data.negotiation_tips && data.negotiation_tips.length > 0) {
+                report += `NEGOTIATION TIPS\n`;
+                report += `----------------\n`;
+                data.negotiation_tips.forEach(tip => {
+                    report += `• ${tip}\n`;
+                });
+            }
+            
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'contract-analysis-report.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
